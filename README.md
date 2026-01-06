@@ -16,4 +16,8 @@
 
 ---
 
+Inspired by `rpa-automationanywhere` and `automation-anywhere`
+
+---
+
 _Created by @AND3SIL4 at Net Applications_
