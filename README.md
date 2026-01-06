@@ -22,6 +22,7 @@ This project is built following clean coding standards to make contributions eas
 
 ---
 
+> [!NOTE]
 > Inspired by
 >
 > - `rpa-automationanywhere`: last update on 5 jun 2025
