@@ -5,3 +5,5 @@ description = "This project contains useful tools to work with Automation Anywhe
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
+
+# todo: include the configuration of the project to be an installable package in Pypi
