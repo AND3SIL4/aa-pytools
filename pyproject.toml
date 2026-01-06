@@ -1,0 +1,7 @@
+[project]
+name = "aa-pytools"
+version = "0.1.0"
+description = "This project contains useful tools to work with Automation Anywhere and Python"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
