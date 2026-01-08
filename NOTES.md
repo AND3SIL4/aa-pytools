@@ -1,5 +1,11 @@
 # In order to get this project done, I had to learn and rediscover some key concepts
 
+<!--toc:start-->
+
+- [In order to get this project done, I had to learn and rediscover some key concepts](#in-order-to-get-this-project-done-i-had-to-learn-and-rediscover-some-key-concepts)
+  - [Packages needed to understand](#packages-needed-to-understand)
+  <!--toc:end-->
+
 1. What is the difference between a Python library, package, and module?
 
 - **Library:**
@@ -9,7 +15,7 @@
 - **Module:**
   A single file that contains reusable Python code, such as functions or classes, which can be imported and used in other programs. May have multiple functions.
 
-2. What is the anathomy of Python packages and `pyproject.toml`
+1. What is the anathomy of Python packages and `pyproject.toml`
 
 ```txt
 project
@@ -23,16 +29,24 @@ project
 
 - `setuptools`: make the dist files
 - `wheel`: make the dist files
-- `build`: build the ditribute binary files
+- `build`: build the ditribute binary files (`.whl` and `.tz`)
 - `twine`: publish to Pypi global repository
 
-I had to replace the contruction of the library using `setup.py` file to `pyproject.toml` and learn how to use the `__init__.py` file to index the imports of the packages.
+I had to replace the construction of the library using `setup.py` file to `pyproject.toml` and learn how to use the `__init__.py` file to index the imports of the packages.
 
 Use the test environment in Pypi to publish my first package _(if I make a mistake there is no problem in this environment)_
 
 > ️ Some tips before publish the package
 >
-> 1.  Make sure your package code is clean and maintainable.
-> 2.  Extend the documentation in order to make the package easier to use.
-> 3.  Choose an appropiate software licence before publish the package.
-> 4.  Make managing package updates easy.
+> 1. Make sure your package code is clean and maintainable.
+> 2. Extend the documentation in order to make the package easier to use.
+> 3. Choose an appropiate software licence before publish the package.
+> 4. Make managing package updates easy.
+
+## To create the project we have to follow this steps
+
+1. Setup the `pyproject.toml` with the needed configuration to publish in [Pypi](https://pypi.org). For setting up the project we can follow the instruction in this oficial website [python setting up pyproject](https://packaging.python.org/en/latest/tutorials/packaging-projects/).
+
+# We shall choose a build back end to make the build
+
+- We shall choose a build back end to make the build. The most common options are `hatchling` or `setuptools`, for this case we use the setuptools option
