@@ -1,3 +1,20 @@
+"""
+Logging system for aa_pytools.
+
+This module provides a convenient logging setup for use in the aa_pytools package.
+It supports easy logger creation, configurable formatting, and centralized configuration
+(including log level, output file, and date/detail formatting). It is designed to be
+auto-configuring on first use within the package.
+
+Exports:
+    - LOG_LEVEL: Literal type for log levels.
+    - DEFAULT_LOG_LEVEL, DEFAULT_FORMAT, DEFAULT_DATE_FORMAT: Default logging settings.
+    - PACKAGE_NAME: Name of the root package logger.
+    - configure_logging: Configure or reconfigure the package logging system.
+    - get_logger: Retrieve a logger for the given name (auto-configures on first use).
+    - get_current_config: Return the current logging configuration for inspection.
+"""
+
 import logging
 import sys
 from pathlib import Path
@@ -5,14 +22,16 @@ from typing import Literal
 
 # Type alias for log levels
 LOG_LEVEL = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-# Default configuration
+
+# Default configuration values for logging
 DEFAULT_LOG_LEVEL = "INFO"
 DEFAULT_FORMAT = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-# Package logger name
+
+# Package logger name -- used for internal logging
 PACKAGE_NAME = "aa_pytools"
 
-# Set the global configuration state
+# Set the global configuration state for logging (internal)
 _config: dict[str, any] = {
     "level": DEFAULT_LOG_LEVEL,
     "format": DEFAULT_FORMAT,
@@ -23,11 +42,21 @@ _config: dict[str, any] = {
 
 
 def get_logger(name: str) -> logging.Logger:
-    # Get or create a logging instance
+    """
+    Retrieve a logger with the specified name.
+
+    If the logger name begins with the package name and logging has not yet been
+    configured, this will auto-configure logging with default options.
+
+    Args:
+        name (str): The name of the logger to retrieve.
+
+    Returns:
+        logging.Logger: The logger for the given name.
+    """
     logger = logging.getLogger(name)
     if name.startswith(PACKAGE_NAME) and not _config["configured"]:
         configure_logging()  # Set the default configuration
-
     return logger
 
 
@@ -39,6 +68,20 @@ def configure_logging(
     console: bool = True,
     force_reconfigure: bool = False,
 ) -> None:
+    """
+    Configure or reconfigure package logging.
+
+    This sets up handlers and formats for the package logger. It can add console and/or
+    file logging and allows for repeated reconfiguration.
+
+    Args:
+        level (LOG_LEVEL | None): Logging verbosity. Default uses 'INFO'.
+        format_string (str | None): Logging output format. Uses package default if None.
+        date_format (str | None): Format for timestamps. Defaults to package-wide format.
+        log_file (Path | str | None): If provided, logs are also written to this file.
+        console (bool): If True, enable logging to the console (stdout).
+        force_reconfigure (bool): If True, forcibly reset config and handlers.
+    """
     if _config["configured"] and not force_reconfigure:
         return
 
@@ -90,6 +133,13 @@ def configure_logging(
 
 
 def get_current_config() -> dict[str, any]:
+    """
+    Return the current logging configuration state (for introspection/testing).
+
+    Returns:
+        dict: Dictionary with current log level, format, configured status,
+              date format, and number of handlers.
+    """
     return {
         "level": _config["level"],
         "format": _config["format"],
