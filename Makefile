@@ -23,6 +23,7 @@ test:
 bump:
 	$(PYTHON) scripts/bump_version.py $(TYPE)
 	@grep '^version' pyproject.toml
+	@echo "You should to commit changes before publish the package"
 
 clean:
 	rm -rf $(DIST_DIR)
