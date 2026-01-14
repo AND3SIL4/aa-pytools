@@ -1,3 +1,45 @@
+"""
+safe_execute decorator module.
+
+This module provides the `safe_execute` decorator, which allows any function to be
+wrapped so that it executes safely. All exceptions raised within the wrapped function
+are caught, and a standardized, structured payload is returned, indicating the
+success or failure of the execution along with timing information and, optionally,
+trace details. Results can be returned as a dictionary or as a JSON-formatted string,
+according to decorator options.
+
+Usage:
+
+    @safe_execute
+    def my_function(...):
+        ...
+
+    @safe_execute(return_json=True, include_trace=True)
+    def another_function(...):
+        ...
+
+Options:
+    - return_json: If True, returns the payload as a JSON string (default is False).
+    - include_trace: If True, includes filename and line info in case of exceptions (default is False).
+
+Constants:
+    - DEFAULT_SUCCESS_MSG: Message returned on successful execution.
+    - DEFAULT_NO_RESULT: Placeholder for cases when result is None.
+
+TODO:
+    - Integrate the package logging system for error tracking.
+
+Example:
+
+    @safe_execute(return_json=True)
+    def divide(a, b):
+        return a / b
+
+    response = divide(4, 2)
+    # response is a JSON string with status, message, result, and time_spent.
+
+"""
+
 import functools
 import json
 import os
@@ -13,12 +55,22 @@ def safe_execute(
     _func: callable = None, *, return_json: bool = False, include_trace: bool = False
 ) -> callable:
     """
-    Decorator that execute a function safely, catching exceptions and returning
+    Decorator that executes a function safely, catching exceptions and returning
     a standardized result payload.
 
-    Can be used with or without parameters:
+    Usage:
         @safe_execute
         @safe_execute(return_json=True, include_trace=True)
+
+    Args:
+        return_json (bool): If True, return the payload as a JSON-formatted string.
+            Default is False (returns a dictionary).
+        include_trace (bool): If True, include filename and line number of exception
+            in the error payload when an exception is caught. Default is False.
+
+    Returns:
+        callable: The decorated function, with enhanced error handling and
+                  structured output.
     """
 
     def decorator(func: callable) -> callable:
@@ -79,4 +131,3 @@ def safe_execute(
         return decorator
 
     return decorator(func=_func)  # That means using this type: @safe_execute
-
