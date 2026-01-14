@@ -31,14 +31,14 @@ clean:
 	rm -rf build
 	rm -rf __pycache__
 
-build: clean bump
+build:
 	$(PYTHON) -m build
 
-publish-test: build
+publish-test: clean build
 	$(PYTHON) -m twine check dist/*
 	$(PYTHON) -m twine upload --repository testpypi dist/*
 
-publish: build
+publish:
 	$(PYTHON) -m twine upload dist/*
 
 test-download:
@@ -54,8 +54,6 @@ help:
 	@printf "  make publish        Upload to PyPI\n"
 	@printf "\n"
 	@printf "Order to use the make flow:\n"
-	@printf "  make clean\n"
-	@printf "  make build\n"
 	@printf "  make bump TYPE=major|minor|patch\n"
 	@printf "  make publish-test\n"
 	@printf "  make test-download\n"
