@@ -49,7 +49,7 @@ new_version = f"{major}.{minor}.{patch}"
 # Read and replace the version assignment string
 content = pyproject.read_text()
 content = content.replace(
-    f"version = '{data['project']['version']}'", f"version = {new_version}"
+    f'version = "{data["project"]["version"]}"', f'version = "{new_version}"'
 )
 
 # Write the updated version back to pyproject.toml
