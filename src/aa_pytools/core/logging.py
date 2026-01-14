@@ -13,7 +13,7 @@ DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 PACKAGE_NAME = "aa_pytools"
 
 # Set the global configuration state
-_config = dict[str, any] = {
+_config: dict[str, any] = {
     "level": DEFAULT_LOG_LEVEL,
     "format": DEFAULT_FORMAT,
     "date_format": DEFAULT_DATE_FORMAT,
@@ -97,4 +97,3 @@ def get_current_config() -> dict[str, any]:
         "configured": _config["configured"],
         "handlers_count": len(_config["handlers"]),
     }
-
